@@ -16,7 +16,11 @@ adduser --disabled-password --quiet --system --home $KAMAILIO_BASE --ingroup kam
 
 rm -rf $CFG_BASE
 cp -a ~/kazoo-configs/kamailio $CFG_BASE
-sed -i 's|loadmodule "mi_fifo.so"||g;s|mpath=|#mpath=|g' $DEFAULT_CFG
+
+echo 'loadmodule "jsonrpcs.so"' >> $DEFAULT_CFG
+echo 'modparam("jsonrpcs", "pretty_format", 1)' >> $DEFAULT_CFG
+echo 'modparam("jsonrpcs", "fifo_name", "/var/run/kamailio/kamailio_rpc.fifo")' >> $DEFAULT_CFG
+
 sed -i 's|/etc/kazoo/kamailio/dbtext|/usr/local/kamailio/etc/kamailio/dbtext|g' $DEFS_CFG
 sed -i 's|/etc/kazoo/kamailio/dbtext|/usr/local/kamailio/etc/kamailio/dbtext|g' $LOCAL_CFG
 sed -i 's|/etc/kazoo/kamailio/dbtext|/usr/local/kamailio/etc/kamailio/dbtext|g' $DISPATCHER_CFG
